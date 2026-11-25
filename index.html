@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Humanize — Entenda o que existe por trás do comportamento</title>
+<meta name="description" content="Humanize é uma experiência interativa sobre comportamento humano na adolescência: quizzes, curiosidades, situações reais e descobertas sobre por que agimos do jeito que agimos.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Human<span>ize</span></a>
+
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="reflita">Reflita</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="voce-sabia">Você sabia?</a></li>
+        <li><a href="mito-ou-fato.html">Mito ou fato</a></li>
+        <li><a href="linguagem-corporal.html">Linguagem corporal</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="quiz.html" class="btn btn-ghost">Fazer um quiz</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="hero-kicker">Humanize</span>
+      <h1>Você conhece mesmo o seu próprio comportamento?</h1>
+      <p class="lead">Todos os dias fazemos escolhas, interpretamos pessoas, somos influenciados e reagimos a situações sem perceber. Mas por quê?</p>
+      <div class="hero-actions">
+        <a href="#reflita" class="btn btn-primary">Começar a explorar</a>
+        <a href="quiz.html" class="btn btn-outline">Ir direto ao quiz</a>
+      </div>
+      <div class="hero-hint"><span class="dot"></span> Role para descobrir por que você age do jeito que age</div>
+    </div>
+  </section>
+
+  <!-- REFLITA -->
+  <section class="section" id="reflita">
+    <div class="container">
+      <div class="section-head fx-in">
+        <span class="eyebrow">Ponto de partida</span>
+        <h2>Perguntas que provavelmente já passaram pela sua cabeça</h2>
+        <p>Clique em cada uma para descobrir o que está por trás.</p>
+      </div>
+
+      <div class="reveal-grid">
+        <article class="reveal-card fx-in" aria-expanded="false">
+          <button class="reveal-toggle">
+            <h3>Por que queremos tanto pertencer a um grupo?</h3>
+            <span class="icon">+</span>
+          </button>
+          <div class="reveal-answer">
+            <p>Pertencer a um grupo ativa os mesmos circuitos de recompensa do cérebro ligados à sobrevivência: por milhares de anos, fazer parte de um grupo significava proteção. Hoje isso continua influenciando decisões, mesmo sem perigo real envolvido.</p>
+          </div>
+        </article>
+
+        <article class="reveal-card fx-in" aria-expanded="false">
+          <button class="reveal-toggle">
+            <h3>Por que uma mensagem sem resposta pode mudar o seu humor?</h3>
+            <span class="icon">+</span>
+          </button>
+          <div class="reveal-answer">
+            <p>Nosso cérebro tenta prever o comportamento das pessoas para se sentir seguro. Quando uma resposta não vem, essa previsão falha — e a incerteza é interpretada como uma ameaça pequena, gerando desconforto mesmo sem motivo confirmado.</p>
+          </div>
+        </article>
+
+        <article class="reveal-card fx-in" aria-expanded="false">
+          <button class="reveal-toggle">
+            <h3>Por que imitamos pessoas sem perceber?</h3>
+            <span class="icon">+</span>
+          </button>
+          <div class="reveal-answer">
+            <p>Isso se chama mimetismo social. Copiar gestos, tom de voz ou expressões de quem está por perto é uma forma automática de sinalizar "eu sou parecido com você, pode confiar em mim" — acontece antes mesmo de pensarmos sobre isso.</p>
+          </div>
+        </article>
+
+        <article class="reveal-card fx-in" aria-expanded="false">
+          <button class="reveal-toggle">
+            <h3>Por que pensamos tanto no que os outros pensam?</h3>
+            <span class="icon">+</span>
+          </button>
+          <div class="reveal-answer">
+            <p>Na adolescência, a região do cérebro ligada à percepção social se desenvolve intensamente. Isso deixa a opinião alheia mais "alta" na mente — não é exagero seu, é uma fase real do desenvolvimento cerebral.</p>
+          </div>
+        </article>
+
+        <article class="reveal-card fx-in" aria-expanded="false">
+          <button class="reveal-toggle">
+            <h3>Por que algumas conversas ficam na nossa cabeça por horas?</h3>
+            <span class="icon">+</span>
+          </button>
+          <div class="reveal-answer">
+            <p>Chama-se ruminação: o cérebro revisita momentos sem uma resolução clara, tentando "fechar" a situação. É mais comum em interações com carga emocional ou social, exatamente o tipo que mais vivemos no dia a dia.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE O SITE -->
+  <section class="section section--tight" style="background:#fff;">
+    <div class="container">
+      <div class="section-head fx-in">
+        <span class="eyebrow">A experiência completa</span>
+        <h2>Continue explorando o comportamento humano</h2>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card fx-in" href="quiz.html">
+          <span class="tag">Interativo</span>
+          <h3>Quiz</h3>
+          <p>Situações reais da adolescência para testar o quanto você percebe sobre si e sobre os outros.</p>
+        </a>
+        <a class="feature-card fx-in" href="#voce-sabia">
+          <span class="tag">Curiosidade</span>
+          <h3>Você sabia?</h3>
+          <p>Pequenas descobertas escondidas — clique para revelar.</p>
+        </a>
+        <a class="feature-card fx-in" href="#mito-ou-fato">
+          <span class="tag">Jogo</span>
+          <h3>Mito ou fato</h3>
+          <p>Afirmações sobre comportamento humano: verdade, mito ou "depende"?</p>
+        </a>
+        <a class="feature-card fx-in" href="#linguagem-corporal">
+          <span class="tag">Visual</span>
+          <h3>Linguagem corporal</h3>
+          <p>Postura, expressões, gestos e o que o contexto muda em tudo isso.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOCÊ SABIA (placeholder da próxima etapa) -->
+  <section class="section section--dark" id="voce-sabia">
+    <div class="container">
+      <div class="section-head fx-in">
+        <span class="eyebrow">Em construção</span>
+        <h2>Você sabia?</h2>
+        <p>Esta seção — com as curiosidades reveláveis, o "Mito ou fato", "Na vida real", "Linguagem corporal", "Por que eu faço isso?" e o Desafio Final — entra na próxima etapa do site.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="logo">Human<span>ize</span></a>
+        <p style="max-width:32ch; margin-top:14px;">Entenda o que existe por trás do comportamento.</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h4>Explorar</h4>
+          <ul>
+            <li><a href="#reflita">Reflita</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="#voce-sabia">Você sabia?</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Projeto</h4>
+          <ul>
+            <li><a href="#main">Sobre o Humanize</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Humanize — Projeto final, Programador Web</span>
+      <span>Feito com curiosidade sobre comportamento humano</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>

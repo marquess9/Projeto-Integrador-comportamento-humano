@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mito ou fato — Humanize</title>
+<meta name="description" content="Afirmações sobre comportamento humano: verdade, mito ou depende? Teste o que você acha que sabe.">
+<link rel="stylesheet" href="style.css">
+<style>
+  .game-shell{max-width:720px;margin:0 auto;}
+  .game-meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--grey);margin-bottom:10px;}
+  .progress-track{width:100%;height:8px;background:var(--grey-light);border-radius:99px;overflow:hidden;margin-bottom:30px;}
+  .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s ease;}
+  .claim-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px;box-shadow:var(--shadow-soft);}
+  .claim-card h2{font-size:1.3rem;margin-bottom:26px;}
+  .answer-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+  .answer-btn{font:inherit;padding:14px 10px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:#fff;color:var(--ink);cursor:pointer;transition:border-color .2s ease,background .2s ease;}
+  .answer-btn:hover:not([disabled]){border-color:var(--blue);}
+  .answer-btn.is-correct{border-color:var(--green);background:var(--green-soft);}
+  .answer-btn.is-wrong{border-color:#D64545;background:#FBE8E8;}
+  .answer-btn[disabled]{cursor:default;}
+  .feedback-box{display:none;background:var(--blue-soft);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:24px;}
+  .feedback-box.is-visible{display:block;}
+  .feedback-box strong{display:block;margin-bottom:6px;}
+  .feedback-box p{margin:0;color:var(--ink);font-size:.95rem;}
+  .game-nav{display:flex;justify-content:flex-end;}
+  .result-box{text-align:center;padding:20px 0;}
+  .result-score{font-family:var(--font-head);font-size:3rem;font-weight:800;color:var(--blue-deep);}
+  .game-note{font-size:.82rem;color:var(--grey);margin-top:30px;text-align:center;}
+  [hidden]{display:none !important;}
+  @media (max-width:520px){.answer-row{grid-template-columns:1fr;}.claim-card{padding:24px;}}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Human<span>ize</span></a>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#reflita">Reflita</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="index.html#voce-sabia">Você sabia?</a></li>
+        <li><a href="mito-ou-fato.html">Mito ou fato</a></li>
+        <li><a href="linguagem-corporal.html">Linguagem corporal</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="index.html" class="btn btn-ghost">Voltar à home</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--header-h) + 60px);">
+    <div class="container game-shell">
+
+      <div class="section-head">
+        <span class="eyebrow">Jogo</span>
+        <h1 style="font-family:var(--font-head); font-size:clamp(1.7rem,3vw,2.3rem);">Mito ou fato?</h1>
+        <p>Leia a afirmação e escolha: mito, fato ou depende. Depois de cada resposta, você vê a explicação.</p>
+      </div>
+
+      <div id="game">
+        <div class="game-meta"><span>Afirmação</span><span id="progress-label"></span></div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="claim-card">
+          <h2 id="claim-text"></h2>
+          <div class="answer-row" id="answer-row">
+            <button class="answer-btn" data-answer="mito">Mito</button>
+            <button class="answer-btn" data-answer="fato">Fato</button>
+            <button class="answer-btn" data-answer="depende">Depende</button>
+          </div>
+          <div class="feedback-box" id="feedback-box" role="status" aria-live="polite">
+            <strong id="feedback-title"></strong>
+            <p id="feedback-text"></p>
+          </div>
+          <div class="game-nav">
+            <button class="btn btn-primary" id="next-btn" disabled>Próxima</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="result" hidden>
+        <div class="claim-card result-box">
+          <p class="eyebrow" style="display:block;">Resultado</p>
+          <div class="result-score" id="result-score">0/0</div>
+          <h2 id="result-title"></h2>
+          <p id="result-text" style="margin:0 auto 26px;"></p>
+          <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="retry-btn">Jogar de novo</button>
+            <a class="btn btn-outline" style="color:var(--ink); border-color:var(--line);" href="linguagem-corporal.html">Ver linguagem corporal</a>
+          </div>
+        </div>
+        <p class="game-note">Este jogo é uma reflexão sobre comportamento humano — não é um diagnóstico psicológico.</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:1px solid rgba(246,245,241,.12); padding-top:24px;">
+    <span>© 2026 Humanize — Projeto final, Programador Web</span>
+    <span>Entenda o que existe por trás do comportamento.</span>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+<script src="script.js"></script>
+<script>
+(function () {
+  var claims = [
+    { text: "Usamos apenas 10% do cérebro.", answer: "mito",
+      why: "Imagens cerebrais mostram atividade em todas as regiões. Nem todas ao mesmo tempo, mas todas são usadas." },
+    { text: "Imitar sem perceber o gesto de quem conversa com você é normal.", answer: "fato",
+      why: "É o mimetismo social: copiar postura, gestos e tom de voz acontece automaticamente e ajuda a criar conexão." },
+    { text: "Quem desvia o olhar enquanto fala está mentindo.", answer: "mito",
+      why: "Desviar o olhar pode indicar concentração, timidez ou cultura diferente. Estudos mostram que não é um sinal confiável de mentira." },
+    { text: "Na adolescência, a opinião dos outros pesa mais do que na infância.", answer: "fato",
+      why: "As regiões do cérebro ligadas à percepção social se desenvolvem intensamente nessa fase. Não é exagero, é desenvolvimento." },
+    { text: "Cruzar os braços sempre significa que a pessoa está fechada ou irritada.", answer: "mito",
+      why: "Pode ser frio, cansaço, conforto ou hábito. Um gesto isolado não diz muito sem o contexto." },
+    { text: "Dormir mal pode mudar a forma como interpretamos o humor dos outros.", answer: "fato",
+      why: "Com pouco sono, o cérebro tende a reagir com mais intensidade a sinais de ameaça, e expressões neutras podem parecer hostis." },
+    { text: "Quanto mais você pensa em uma conversa depois dela, mais ela foi importante.", answer: "depende",
+      why: "A ruminação acontece quando o cérebro tenta fechar algo sem resolução. Pode vir de importância real, mas também de incerteza ou insegurança." },
+    { text: "Pessoas mais extrovertidas são sempre mais felizes.", answer: "depende",
+      why: "Há relação em alguns estudos, mas ela é fraca e varia com o ambiente. Muita gente introvertida vive bem com pouca interação social." }
+  ];
+  var labels = { mito: "Mito", fato: "Fato", depende: "Depende" };
+
+  var i = 0, score = 0;
+  var $ = function (id) { return document.getElementById(id); };
+  var buttons = document.querySelectorAll(".answer-btn");
+
+  function show() {
+    var c = claims[i];
+    $("claim-text").textContent = c.text;
+    $("progress-label").textContent = (i + 1) + " de " + claims.length;
+    $("progress-fill").style.width = (i / claims.length * 100) + "%";
+    $("feedback-box").classList.remove("is-visible");
+    $("next-btn").disabled = true;
+    $("next-btn").textContent = i === claims.length - 1 ? "Ver resultado" : "Próxima";
+    buttons.forEach(function (b) { b.disabled = false; b.className = "answer-btn"; });
+  }
+
+  function answer(choice) {
+    var c = claims[i], ok = choice === c.answer;
+    if (ok) score++;
+    buttons.forEach(function (b) {
+      b.disabled = true;
+      if (b.dataset.answer === c.answer) b.classList.add("is-correct");
+      else if (b.dataset.answer === choice) b.classList.add("is-wrong");
+    });
+    $("feedback-title").textContent = (ok ? "Certo! " : "Quase. ") + "A resposta é: " + labels[c.answer] + ".";
+    $("feedback-text").textContent = c.why;
+    $("feedback-box").classList.add("is-visible");
+    $("next-btn").disabled = false;
+  }
+
+  function finish() {
+    $("game").hidden = true;
+    $("result").hidden = false;
+    $("result-score").textContent = score + "/" + claims.length;
+    var r = score / claims.length;
+    $("result-title").textContent = r >= 0.75 ? "Você tem um bom olhar crítico." : r >= 0.4 ? "Boa! Algumas surpresas no caminho." : "Muita coisa surpreende, e isso é normal.";
+    $("result-text").textContent = "Muitos mitos sobre comportamento parecem verdade porque são repetidos o tempo todo. Duvidar e checar é o primeiro passo para entender melhor as pessoas.";
+  }
+
+  buttons.forEach(function (b) { b.addEventListener("click", function () { answer(b.dataset.answer); }); });
+  $("next-btn").addEventListener("click", function () {
+    i++;
+    if (i >= claims.length) { $("progress-fill").style.width = "100%"; finish(); } else show();
+  });
+  $("retry-btn").addEventListener("click", function () {
+    i = 0; score = 0; $("result").hidden = true; $("game").hidden = false; show();
+  });
+
+  show();
+})();
+</script>
+</body>
+</html>

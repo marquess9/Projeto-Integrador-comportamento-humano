@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linguagem corporal — Humanize</title>
+<meta name="description" content="Postura, expressões, gestos e o que o contexto muda em tudo isso.">
+<link rel="stylesheet" href="style.css">
+<style>
+  .body-shell{max-width:860px;margin:0 auto;}
+  .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;}
+  .tab-btn{font:inherit;padding:10px 18px;border:1.5px solid var(--line);border-radius:99px;background:#fff;color:var(--ink);cursor:pointer;transition:border-color .2s ease,background .2s ease;}
+  .tab-btn:hover{border-color:var(--blue);}
+  .tab-btn[aria-selected="true"]{background:var(--blue-soft);border-color:var(--blue);}
+  .tab-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-soft);}
+  .tab-panel h2{font-size:1.3rem;margin-bottom:10px;}
+  .tab-panel > p{margin-bottom:20px;}
+  .sign-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;}
+  .sign-list li{border:1px solid var(--line);border-radius:var(--radius-md);padding:16px 18px;}
+  .sign-list strong{display:block;margin-bottom:4px;}
+  .sign-list span{font-size:.92rem;color:var(--grey);}
+  .context-list{display:flex;flex-direction:column;gap:12px;}
+  .context-item{border:1px solid var(--line);border-radius:var(--radius-md);background:#fff;overflow:hidden;}
+  .context-item button{font:inherit;width:100%;text-align:left;padding:18px 20px;border:0;background:none;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;gap:16px;}
+  .context-item button .icon{color:var(--blue-deep);font-weight:700;}
+  .context-answer{display:none;padding:0 20px 18px;}
+  .context-answer p{margin:0 0 8px;font-size:.95rem;}
+  .context-item.is-open .context-answer{display:block;}
+  .context-item.is-open{border-color:var(--blue);}
+  .body-note{font-size:.82rem;color:var(--grey);margin-top:30px;text-align:center;}
+  [hidden]{display:none !important;}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Human<span>ize</span></a>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#reflita">Reflita</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="index.html#voce-sabia">Você sabia?</a></li>
+        <li><a href="mito-ou-fato.html">Mito ou fato</a></li>
+        <li><a href="linguagem-corporal.html">Linguagem corporal</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="index.html" class="btn btn-ghost">Voltar à home</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--header-h) + 60px);">
+    <div class="container body-shell">
+
+      <div class="section-head">
+        <span class="eyebrow">Visual</span>
+        <h1 style="font-family:var(--font-head); font-size:clamp(1.7rem,3vw,2.3rem);">Linguagem corporal</h1>
+        <p>Sem dizer uma palavra, o corpo comunica muita coisa. Mas cada sinal só faz sentido junto com o contexto.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Tipos de sinais corporais" id="tabs"></div>
+      <div class="tab-panel" id="tab-panel" role="tabpanel" tabindex="0"></div>
+
+      <div class="section-head" style="margin-top:64px;">
+        <h2 style="font-family:var(--font-head); font-size:clamp(1.4rem,2.5vw,1.8rem);">O mesmo gesto, significados diferentes</h2>
+        <p>Clique em cada situação para ver como o contexto muda a interpretação.</p>
+      </div>
+      <div class="context-list" id="context-list"></div>
+
+      <p class="body-note">Linguagem corporal é uma pista, não uma prova. Não serve para "ler" ou rotular ninguém.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:1px solid rgba(246,245,241,.12); padding-top:24px;">
+    <span>© 2026 Humanize — Projeto final, Programador Web</span>
+    <span>Entenda o que existe por trás do comportamento.</span>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+<script src="script.js"></script>
+<script>
+(function () {
+  var groups = [
+    { id: "postura", name: "Postura",
+      intro: "A forma como sentamos e ficamos em pé costuma refletir energia, conforto e atenção.",
+      signs: [
+        ["Corpo inclinado para frente", "Costuma indicar interesse e atenção na conversa."],
+        ["Ombros caídos", "Pode mostrar cansaço, desânimo ou simplesmente relaxamento."],
+        ["Costas eretas, peito aberto", "Geralmente passa confiança ou prontidão."],
+        ["Corpo virado para o lado", "Pode sinalizar desconforto ou vontade de sair, mas também falta de espaço."]
+      ] },
+    { id: "expressoes", name: "Expressões",
+      intro: "O rosto é a parte mais expressiva do corpo, e muitas expressões básicas são reconhecidas em várias culturas.",
+      signs: [
+        ["Sobrancelhas levantadas", "Surpresa, curiosidade ou dúvida."],
+        ["Sorriso que enruga os olhos", "Tende a mostrar alegria genuína."],
+        ["Testa franzida", "Concentração, preocupação ou desaprovação."],
+        ["Lábios apertados", "Pode indicar tensão, contenção ou desagrado."]
+      ] },
+    { id: "gestos", name: "Gestos",
+      intro: "Mãos e braços reforçam o que dizemos, e alguns gestos têm sentidos diferentes em cada cultura.",
+      signs: [
+        ["Mãos soltas ao falar", "Costuma acompanhar entusiasmo e ajuda a enfatizar ideias."],
+        ["Mexer no cabelo ou nas mãos", "Pode ser nervosismo, mas também apenas hábito."],
+        ["Braços cruzados", "Defesa ou fechamento, ou só frio e conforto."],
+        ["Polegar para cima", "Positivo em muitos lugares, mas ofensivo em alguns países."]
+      ] },
+    { id: "espaco", name: "Espaço e distância",
+      intro: "Cada pessoa tem uma distância em que se sente confortável, e ela varia com a relação e a cultura.",
+      signs: [
+        ["Aproximar-se de alguém", "Pode sinalizar intimidade ou confiança."],
+        ["Afastar-se aos poucos", "Pode mostrar desconforto com a proximidade."],
+        ["Sentar lado a lado", "Costuma passar cooperação, e frente a frente, confronto ou formalidade."],
+        ["Espelhar a postura do outro", "Sinal comum de sintonia entre duas pessoas."]
+      ] }
+  ];
+
+  var contexts = [
+    { q: "Braços cruzados",
+      a: ["Numa sala gelada: provavelmente só frio.", "Numa discussão, com o rosto tenso: pode ser defesa ou irritação.", "Numa conversa tranquila, com sorriso: apenas uma posição confortável."] },
+    { q: "Evitar o contato visual",
+      a: ["Para alguém tímido: costuma ser insegurança, não desinteresse.", "Em algumas culturas: olhar direto pode ser visto como falta de respeito.", "Ao tentar lembrar algo: o olhar se desvia para ajudar a concentração."] },
+    { q: "Balançar a perna sentado",
+      a: ["Antes de uma prova: ansiedade ou nervosismo.", "Numa aula longa: tédio ou energia acumulada.", "Ouvindo uma música: ritmo, sem significado emocional."] }
+  ];
+
+  var tabs = document.getElementById("tabs");
+  var panel = document.getElementById("tab-panel");
+
+  function select(id) {
+    var g = groups.filter(function (x) { return x.id === id; })[0];
+    tabs.querySelectorAll(".tab-btn").forEach(function (b) {
+      b.setAttribute("aria-selected", b.dataset.id === id ? "true" : "false");
+    });
+    panel.setAttribute("aria-labelledby", "tab-" + id);
+    var html = "<h2></h2><p></p><ul class='sign-list'></ul>";
+    panel.innerHTML = html;
+    panel.querySelector("h2").textContent = g.name;
+    panel.querySelector("p").textContent = g.intro;
+    var ul = panel.querySelector("ul");
+    g.signs.forEach(function (s) {
+      var li = document.createElement("li");
+      var st = document.createElement("strong"); st.textContent = s[0];
+      var sp = document.createElement("span"); sp.textContent = s[1];
+      li.appendChild(st); li.appendChild(sp); ul.appendChild(li);
+    });
+  }
+
+  groups.forEach(function (g) {
+    var b = document.createElement("button");
+    b.className = "tab-btn"; b.id = "tab-" + g.id; b.dataset.id = g.id;
+    b.setAttribute("role", "tab"); b.textContent = g.name;
+    b.addEventListener("click", function () { select(g.id); });
+    tabs.appendChild(b);
+  });
+  select(groups[0].id);
+
+  var list = document.getElementById("context-list");
+  contexts.forEach(function (c) {
+    var item = document.createElement("div"); item.className = "context-item";
+    var btn = document.createElement("button");
+    btn.setAttribute("aria-expanded", "false");
+    var t = document.createElement("span"); t.textContent = c.q;
+    var ic = document.createElement("span"); ic.className = "icon"; ic.textContent = "+";
+    btn.appendChild(t); btn.appendChild(ic);
+    var ans = document.createElement("div"); ans.className = "context-answer";
+    c.a.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; ans.appendChild(p); });
+    btn.addEventListener("click", function () {
+      var open = item.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open);
+      ic.textContent = open ? "−" : "+";
+    });
+    item.appendChild(btn); item.appendChild(ans); list.appendChild(item);
+  });
+})();
+</script>
+</body>
+</html>

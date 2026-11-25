@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Humanize</title>
+<meta name="description" content="Situações reais da adolescência para testar o quanto você percebe sobre comunicação, influência social e comportamento humano.">
+<link rel="stylesheet" href="style.css">
+<style>
+  .quiz-shell{max-width:720px;margin:0 auto;}
+  .quiz-picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+  .quiz-pick-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);padding:26px;cursor:pointer;text-align:left;transition:transform .2s ease, box-shadow .2s ease;}
+  .quiz-pick-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft);}
+  .quiz-pick-card h3{font-size:1.05rem;margin-bottom:6px;}
+  .quiz-pick-card p{font-size:.9rem;margin:0;}
+  .progress-track{width:100%;height:8px;background:var(--grey-light);border-radius:99px;overflow:hidden;margin-bottom:36px;}
+  .progress-fill{height:100%;width:0%;background:linear-gradient(90deg, var(--blue), var(--green));transition:width .4s ease;}
+  .quiz-meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--grey);margin-bottom:10px;}
+  .question-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px;box-shadow:var(--shadow-soft);}
+  .question-card h2{font-size:1.3rem;margin-bottom:26px;}
+  .option-list{display:flex;flex-direction:column;gap:12px;list-style:none;margin:0 0 22px;padding:0;}
+  .option-btn{all:unset;display:block;padding:16px 18px;border:1.5px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;transition:border-color .2s ease, background .2s ease;font-size:.98rem;}
+  .option-btn:hover{border-color:var(--blue);}
+  .option-btn.is-correct{border-color:var(--green);background:var(--green-soft);}
+  .option-btn.is-wrong{border-color:#D64545;background:#FBE8E8;}
+  .option-btn[disabled]{cursor:default;}
+  .feedback-box{display:none;background:var(--blue-soft);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:24px;}
+  .feedback-box.is-visible{display:block;}
+  .feedback-box p{margin:0;color:var(--ink);font-size:.95rem;}
+  .quiz-nav{display:flex;justify-content:flex-end;}
+  .result-box{text-align:center;padding:20px 0;}
+  .result-score{font-family:var(--font-head);font-size:3rem;font-weight:800;color:var(--blue-deep);}
+  .quiz-disclaimer{font-size:.82rem;color:var(--grey);margin-top:30px;text-align:center;}
+  [hidden]{display:none !important;}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">Human<span>ize</span></a>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#reflita">Reflita</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="index.html#voce-sabia">Você sabia?</a></li>
+        <li><a href="index.html#mito-ou-fato">Mito ou fato</a></li>
+        <li><a href="index.html#linguagem-corporal">Linguagem corporal</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="index.html" class="btn btn-ghost">Voltar à home</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--header-h) + 60px);">
+    <div class="container quiz-shell">
+
+      <!-- Seletor de quiz -->
+      <div id="quiz-picker">
+        <div class="section-head">
+          <span class="eyebrow">Quiz interativo</span>
+          <h1 style="font-family:var(--font-head); font-size:clamp(1.7rem,3vw,2.3rem);">Escolha um quiz para começar</h1>
+          <p>Cada quiz parte de situações reais do dia a dia. O resultado não avalia sua personalidade — só mostra como diferentes olhares mudam a interpretação de uma mesma cena.</p>
+        </div>
+        <div class="quiz-picker" id="quiz-list"></div>
+      </div>
+
+      <!-- Área do quiz em andamento -->
+      <div id="quiz-player" hidden>
+        <div class="quiz-meta">
+          <span id="quiz-title-label"></span>
+          <span id="quiz-progress-label"></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div class="question-card">
+          <h2 id="question-text"></h2>
+          <ul class="option-list" id="option-list"></ul>
+          <div class="feedback-box" id="feedback-box"><p id="feedback-text"></p></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" id="next-btn" disabled>Próxima</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultado -->
+      <div id="quiz-result" hidden>
+        <div class="question-card result-box">
+          <p class="eyebrow" style="display:block;">Resultado</p>
+          <div class="result-score" id="result-score">0/0</div>
+          <h2 id="result-title">Você percebeu mais do que imaginava.</h2>
+          <p id="result-text" style="margin:0 auto 26px;"></p>
+          <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="retry-btn">Tentar outro quiz</button>
+            <a class="btn btn-outline" style="color:var(--ink); border-color:var(--line);" href="index.html">Voltar à home</a>
+          </div>
+        </div>
+        <p class="quiz-disclaimer">Este quiz é uma reflexão sobre comportamento social e comunicação — não é um diagnóstico psicológico.</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:1px solid rgba(246,245,241,.12); padding-top:24px;">
+    <span>© 2026 Humanize — Projeto final, Programador Web</span>
+    <span>Entenda o que existe por trás do comportamento.</span>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+<script src="script.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>
